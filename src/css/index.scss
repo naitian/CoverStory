@@ -1,0 +1,164 @@
+@import url('https://fonts.googleapis.com/css?family=Cardo|Open+Sans:400,400i,700&display=swap');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
+p {
+    font-family: "Cardo";
+    line-height: 1.5;
+    font-size: 18px;
+    margin: 1.5rem 0;
+}
+
+.introduction {
+    h1 {
+        font-size: 3rem;
+        line-height: 2;
+    }
+
+    a {
+        color: white;
+    }
+
+    background-color: black;
+    width: 100vw;
+    height: 40vh;
+    padding: 20px;
+    color: white;
+}
+
+.scroll {
+    display: grid;
+    grid-template-columns: 40% 60%;
+    width: 80vw;
+    margin: 20px auto;
+
+
+    .scroll__stage {
+        height: 50vh;
+        position: sticky;
+        top: 25vh;
+
+        .graphic__step {
+            height: 100%;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+
+            pointer-events: none;
+
+            opacity: 0;
+            transition: 0.2s ease-in-out opacity;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 20px;
+
+            width: 100%;
+
+            img {
+                width: 90%;
+            }
+
+            &.active {
+                opacity: 1;
+                pointer-events: all;
+            }
+        }
+
+        &.is-bottom {
+            bottom: 0;
+            top: auto;
+        }
+    }
+
+    .scroll__runway {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        .step {
+            padding: 25vh 0;
+            max-width: 400px;
+        }
+    }
+}
+
+.interactive {
+    .sentence-text {
+        text-align: center;
+        font-style: italic;
+    }
+    .cover-story {
+        display: flex;
+        justify-content: space-between;
+
+        &.invert {
+            span {
+                opacity: 1;
+                &:hover {
+                    opacity: 0;
+                }
+            }
+        }
+    }
+}
+.book {
+    position: relative;
+    min-width: 100px;
+
+    img {
+        width: 90%;
+    }
+
+    span {
+        width: 90%;
+        height: 100%;
+        background-color: white;
+        font-family: Cardo;
+        font-size: 2rem;
+
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+
+        opacity: 0;
+        transition: 0.2s ease-in-out opacity;
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+    &.invert {
+        span {
+            opacity: 1;
+            &:hover {
+                opacity: 0;
+            }
+        }
+    }
+}
+
+.playground {
+    min-height: 70vh;
+    height: auto;
+    .interactive {
+        padding: 20px;
+
+        .book span {
+            color: black;
+        }
+    }
+}
