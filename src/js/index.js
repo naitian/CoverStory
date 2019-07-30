@@ -1,14 +1,13 @@
 import '../css/index.scss';
 
-// import listings from '../data/listings.json';
-// import titles from '../data/titles.json';
-// import contituents from '../data/constituents.json';
-
-
-import * as d3 from 'd3';
+import CoverStory from './coverstory';
+import JankEventBus from './eventBus';
 import 'intersection-observer';
+import * as d3 from 'd3';
 import scrollama from 'scrollama';
-import { Sortable } from '@shopify/draggable';
+// import Vue from 'vue';
+//
+window.jankEventBus = new JankEventBus();
 
 const container = d3.select('.scroll');
 const graphic = container.select('.scroll__stage');
@@ -16,9 +15,6 @@ const text = container.select('.scroll__runway');
 const step = text.selectAll('.step');
 
 const scroller = scrollama();
-let constituents = null;
-let titles = null;
-let listings = null;
 
 const graphics = {
   'matisse': {
@@ -84,8 +80,6 @@ function handleResize() {
 
 // scrollama event handlers
 function handleStepEnter(response) {
-  console.log('Hi', response);
-
   // Draw graphic
   graphic
     .selectAll('div.graphic__step')
@@ -94,106 +88,8 @@ function handleStepEnter(response) {
     })
 }
 
-// https://codepen.io/rothkj1022/pen/eNONZz
-function sentenceCase(theString) {
-  var newString =
-    theString
-    .toLowerCase()
-    .replace(/(^\s*\w|[\.\!\?]\s*\w)/g, function(c) {
-      return c.toUpperCase()
-    });
-  return newString;
-}
-
-function renderGraphic(graphic) {
-  const container = document.createElement('div');
-  const books = getSentence(graphic.bookIds, graphic.constituents);
-  const sentence = graphic.sentence || sentenceCase(graphic.bookIds.map(x => titles[x.toString()]).join(' '));
-  const sentence_p = document.createElement('p');
-  sentence_p.innerText = sentence;
-  sentence_p.classList.add('sentence-text');
-  if (graphic.invert) books.classList.add('invert');
-  if (graphic.showCovers) container.appendChild(books);
-  if (graphic.showSentence) container.appendChild(sentence_p);
-  return container;
-}
-
-function getCoverImage(bookId, constituent, invert = false) {
-  const image = new Image();
-  const container = document.createElement('div');
-  container.classList.add('book');
-  if (invert) container.classList.add('invert');
-  const pos = document.createElement('span');
-  pos.innerText = constituent;
-  pos.addEventListener('dblclick', e => {
-    let ind = e.target.parentElement.dataset.index;
-    let tag = e.target.parentElement.dataset.tag;
-
-    const div = document.querySelector('.interactive[data-sentence="interactive"]')
-    const storyObject = JSON.parse(div.dataset.object);
-    const bookId = getRandomBook(tag);
-    storyObject.bookIds[ind] = bookId;
-    div.innerHTML = '';
-    div.appendChild(renderGraphic(storyObject));
-    div.dataset.object = JSON.stringify(storyObject);
-    const sortable = new Sortable(document.querySelectorAll('.cover-story'), {
-      draggable: '.book'
-    });
-    sortable.on('sortable:stop', update);
-  });
-  container.appendChild(pos);
-  if (bookId) {
-    image.src = listings[bookId].image_url;
-    container.appendChild(image);
-  }
-  return container;
-}
-
-function shuffleBook(bookContainer, constituent) {
-
-}
-
-function getSentence(bookIdList = null, constituents = null) {
-  const container = document.createElement('div');
-  container.classList.add("cover-story");
-  const len = bookIdList ? bookIdList.length : constituents.length;
-  for (let i = 0; i < len; ++i) {
-    let item = getCoverImage(bookIdList[i], constituents[i])
-    item.dataset.index = i;
-    item.dataset.tag = constituents[i];
-    container.appendChild(item);
-  }
-  return container;
-}
-
-function getRandomBook(tag) {
-  const arr = constituents[tag];
-  return arr[Math.random() * arr.length | 0];
-}
-
-function move(arr, oldInd, newInd) {
-  const [ old ] = arr.splice(oldInd, 1);
-  arr.splice(newInd, 0, old);
-}
-
-function update(e) {
-  const div = document.querySelector('.interactive[data-sentence="interactive"]')
-  const storyObject = JSON.parse(div.dataset.object);
-  move(storyObject.constituents, e.data.oldIndex, e.data.newIndex);
-  move(storyObject.bookIds, e.data.oldIndex, e.data.newIndex);
-  div.innerHTML = '';
-  div.appendChild(renderGraphic(storyObject));
-  div.dataset.object = JSON.stringify(storyObject);
-  const sortable = new Sortable(document.querySelectorAll('.cover-story'), {
-    draggable: '.book'
-  });
-  sortable.on('sortable:stop', update);
-  // const item = getCoverImage(bookId, e.target.value, false);
-  // document.querySelector('.interactive[data-sentence="interactive"] .cover-story').appendChild(item);
-}
-
 async function init() {
-  [constituents, titles, listings] = await fetchData();
+  [window.constituents, window.titles, window.listings] = await fetchData();
 
   // 1. call a resize on load to update width/height/position of elements
   handleResize();
@@ -210,31 +106,48 @@ async function init() {
     })
     .onStepEnter(handleStepEnter)
 
+  console.log(scroller)
+
   // setup resize event
   window.addEventListener('resize', handleResize);
 
   document.querySelectorAll('.interactive').forEach(x => {
-    x.appendChild(renderGraphic(graphics[x.dataset.sentence]));
-    x.dataset.object = JSON.stringify(graphics[x.dataset.sentence]);
+    let data = graphics[x.dataset.sentence];
+    let books = [];
+    for (let i = 0; i < data.constituents.length; ++i) {
+      books.push({ id: parseInt(data.bookIds[i]), tag: data.constituents[i] });
+    }
+    let coverStory = new CoverStory(x, books, data.showSentence, data.invert, data.sentence)
+    coverStory.render();
+    // x.appendChild(renderGraphic(graphics[x.dataset.sentence]));
+    // x.dataset.object = JSON.stringify(graphics[x.dataset.sentence]);
   })
 
-  const sortable = new Sortable(document.querySelectorAll('.cover-story'), {
-    draggable: '.book'
-  });
+  const interactiveCover = new CoverStory(document.querySelector('.playground .interactive'), [], []);
 
   document.querySelector('select.constituents').addEventListener('change', e => {
-    const div = document.querySelector('.interactive[data-sentence="interactive"]')
-    const storyObject = JSON.parse(div.dataset.object);
-    const bookId = getRandomBook(e.target.value);
-    storyObject.constituents.push(e.target.value);
-    storyObject.bookIds.push(bookId);
-    div.innerHTML = '';
-    div.appendChild(renderGraphic(storyObject));
-    div.dataset.object = JSON.stringify(storyObject);
-    const sortable = new Sortable(document.querySelectorAll('.cover-story'), {
-      draggable: '.book'
-    });
-    sortable.on('sortable:stop', update);
+    if (e.target.value == 'default') return;
+    interactiveCover.addBook(e.target.value);
+    e.target.value = 'default';
+  });
+
+  window.jankEventBus.register('change-book', e => {
+    for (let i = 0; i < interactiveCover.books.length; ++i) {
+      const book = interactiveCover.books[i];
+      if (book.id == e.old_id) book.id = e.new_id;
+    }
+    interactiveCover.render();
+  })
+
+  window.jankEventBus.register('delete-book', e => {
+    for (let i = 0; i < interactiveCover.books.length; ++i) {
+      const book = interactiveCover.books[i];
+      if (book.id == e.id) {
+        interactiveCover.books.splice(i, 1);
+        interactiveCover.render();
+        return;
+      }
+    }
   })
 }
 

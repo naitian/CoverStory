@@ -4,196 +4,201 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width" />
         <title>Cover Story</title>
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
     </head>
     <body>
-        <section class="introduction">
-            <h1>Cover Story</h1>
-            <p>
-            Don't judge a book by its cover. Judge it by its linguistic
-            productivity instead!
-            <br>
-            You'll probably want to read this on desktop. If on mobile you can
-            read a less cool version of this previously published <a
-                href="https://naitian.org/blog/2019/07/26/Matisse-is-a-Team-Player/">on my blog</a>.
-            </p>
-            <p>Thanks also to my friends at the <a href="https://blablablab.si.umich.edu">blablablab</a> for their advice and help.</p>
-        </section>
-        <section class="scroll">
-            <div class="scroll__runway">
-                <div class="step" data-step=1>
-                    <h2>Matisse is a team player</h2>
-                    <p>
-                    Two very influential artists, to be sure, but why was
-                    Matisse collaborating with ancient Kabbalists, and what
-                    exactly did the people want from Leonardo’s shadow?
-                    </p>
-                </div>
+        <div id="vue-app">
+            <section class="introduction">
+                <h1>Cover Story</h1>
+                <p>
+                Don't judge a book by its cover. Judge it by its linguistic
+                productivity instead!
+                <br>
+                You'll probably want to read this on desktop. If on mobile you can
+                read a less cool version of this previously published <a
+                                                                          href="https://naitian.org/blog/2019/07/26/Matisse-is-a-Team-Player/">on my blog</a>.
+                </p>
+                <p>Thanks also to my friends at the <a href="https://blablablab.si.umich.edu">blablablab</a> for their advice and help.</p>
 
-                <div class="step" data-step=2>
-                    <h2>Some Context...</h2>
-                    <p>
-                    In mid-June, Randall Munroe, the genius behind xkcd
-                    and the author of quite a few books, announced he was
-                    going on a book tour to promote his latest book:
+            </section>
+            <section class="scroll">
+                <div class="scroll__runway">
+                    <div class="step" data-step=1>
+                        <h2>Matisse is a team player</h2>
+                        <p>
+                        Two very influential artists, to be sure, but why was
+                        Matisse collaborating with ancient Kabbalists, and what
+                        exactly did the people want from Leonardo’s shadow?
+                        </p>
+                    </div>
 
-                    <em>How To: Absurd Scientific Advice for Common Real-World
-                    Problems</em>
-                    </p>
+                    <div class="step" data-step=2>
+                        <h2>Some Context...</h2>
+                        <p>
+                        In mid-June, Randall Munroe, the genius behind xkcd
+                        and the author of quite a few books, announced he was
+                        going on a book tour to promote his latest book:
 
-                    <p>
-                    As part of the announcement, he introduced an interesting
-                    challenge:
-                    </p>
+                        <em>How To: Absurd Scientific Advice for Common Real-World
+                            Problems</em>
+                        </p>
 
-                    <blockquote>Write the best story using nothing but book covers.</blockquote>
+                        <p>
+                        As part of the announcement, he introduced an interesting
+                        challenge:
+                        </p>
 
-                    <p>
-                    The winner of the challenge would be rewarded by a
-                    visit from Munroe as part of the tour. Even though Ann
-                    Arbor was already in the itinerary, I couldn’t help but
-                    think about this challenge… and how I could use some of
-                    my linguistics knowledge to my advantage.
-                    </p>
+                        <blockquote>Write the best story using nothing but book covers.</blockquote>
 
-                    <p>I decided I would try to hack this challenge by
-                    acquiring a dataset of book titles, and having a computer
-                    generate these stories for me.
-                    </p>
-                    <p> I found a list of over 200,000 books listed on Amazon,
-                    and a couple of Jupyter notebooks and Python packages
-                    later, we were off to the races.</p>
-                </div>
+                        <p>
+                        The winner of the challenge would be rewarded by a
+                        visit from Munroe as part of the tour. Even though Ann
+                        Arbor was already in the itinerary, I couldn’t help but
+                        think about this challenge… and how I could use some of
+                        my linguistics knowledge to my advantage.
+                        </p>
 
-                <div class="step" data-step=3>
-                    <h2>Grammar School</h2>
-                    <p>
-                    The key concept behind this project was something I learned
-                    in my introduction to linguistics class last fall:
-                    constituency trees. The basic idea is that each sentence
-                    can be represented as a combination of words and phrases
-                    (constituents).
-                    </p>
-                </div>
+                        <p>I decided I would try to hack this challenge by
+                        acquiring a dataset of book titles, and having a computer
+                        generate these stories for me.
+                        </p>
+                        <p> I found a list of over 200,000 books listed on Amazon,
+                        and a couple of Jupyter notebooks and Python packages
+                        later, we were off to the races.</p>
+                    </div>
 
-                <div class="step" data-step=4>
-                    <p>
-                    For example, a sentence is, in its base form, a noun phrase
-                    and a verb phrase.
-                    </p>
-                </div>
+                    <div class="step" data-step=3>
+                        <h2>Grammar School</h2>
+                        <p>
+                        The key concept behind this project was something I learned
+                        in my introduction to linguistics class last fall:
+                        constituency trees. The basic idea is that each sentence
+                        can be represented as a combination of words and phrases
+                        (constituents).
+                        </p>
+                    </div>
 
-                <div class="step" data-step=5>
-                    <p>
-                    And a noun phrase might be a noun, with optional
-                    adjectives and determiners, and maybe a prepositional
-                    phrase...
-                    </p>
-                    <p>
-                    ...and because prepositional phrases can also have noun
-                    phrases, we can chain these together recursively. In fact,
-                    many linguists believe that all human language is
-                    recursive. See <a
-                        href="http://www.cs.virginia.edu/~evans/cs3102/?p=138">here</a>
-                    and <a
-                        href="https://en.wikipedia.org/wiki/Recursion#In_language">here</a>
-                    for more background and some linguist turf wars.
-                    </p>
-                </div>
+                    <div class="step" data-step=4>
+                        <p>
+                        For example, a sentence is, in its base form, a noun phrase
+                        and a verb phrase.
+                        </p>
+                    </div>
 
-                <div class="step" data-step=6>
-                    <p>
-                    And in this way, we can construct a very expressive and
-                    productive grammar for the English language. Productivity
-                    here means that, with even a limited vocabulary, we can
-                    form many distinct sentences and thoughts.
-                    </p>
-                    <p>
-                    So the main idea was we would label each book title as a
-                    noun phrase, verb phrase, adjective phrase, etc. Then, we
-                    could use this grammar to compose sentences which may not
-                    make a ton of sense, but are at least grammatical.
-                    </p>
-                </div>
-                <div class="step" data-step=7>
-                    <p>
-                    I used <a
-                        href="https://pypi.org/project/benepar/">benepar</a>,
-                    which is a state of the art constituency parser that
-                    fits nicely into NLTK. I found that it provided decent
-                    results. One issue that I ran into was handling more
-                    granular details such as subject verb plurality
-                    alignment. In those cases, I wanted to know what the
-                    noun was in the noun phrase, etc.
-                    </p>
+                    <div class="step" data-step=5>
+                        <p>
+                        And a noun phrase might be a noun, with optional
+                        adjectives and determiners, and maybe a prepositional
+                        phrase...
+                        </p>
+                        <p>
+                        ...and because prepositional phrases can also have noun
+                        phrases, we can chain these together recursively. In fact,
+                        many linguists believe that all human language is
+                        recursive. See <a
+                                           href="http://www.cs.virginia.edu/~evans/cs3102/?p=138">here</a>
+                        and <a
+                                href="https://en.wikipedia.org/wiki/Recursion#In_language">here</a>
+                        for more background and some linguist turf wars.
+                        </p>
+                    </div>
 
-                    <p>
-                    For this, I used a different grammar model: dependency
-                    grammar. In dependency grammars, instead constituents, each
-                    word is dependent on exactly one other word in the
-                    sentence.
-                    </p>
+                    <div class="step" data-step=6>
+                        <p>
+                        And in this way, we can construct a very expressive and
+                        productive grammar for the English language. Productivity
+                        here means that, with even a limited vocabulary, we can
+                        form many distinct sentences and thoughts.
+                        </p>
+                        <p>
+                        So the main idea was we would label each book title as a
+                        noun phrase, verb phrase, adjective phrase, etc. Then, we
+                        could use this grammar to compose sentences which may not
+                        make a ton of sense, but are at least grammatical.
+                        </p>
+                    </div>
+                    <div class="step" data-step=7>
+                        <p>
+                        I used <a
+                                   href="https://pypi.org/project/benepar/">benepar</a>,
+                               which is a state of the art constituency parser that
+                               fits nicely into NLTK. I found that it provided decent
+                               results. One issue that I ran into was handling more
+                               granular details such as subject verb plurality
+                               alignment. In those cases, I wanted to know what the
+                               noun was in the noun phrase, etc.
+                        </p>
 
-                    <p>
-                    I use the root of each dependency tree as the “active noun”
-                    or “active verb” in the phrase, and their parts of speech
-                    include markers for plurality, properness, verb tense, etc.
-                    </p>
-                </div>
-                <div class="step" data-step=8>
-                    <p>
-                    There were just a couple of other edge cases I handled,
-                    which is why the phrase tags I end up using do not line up
-                    entirely with the <a href="http://www.url.com">Penn
-                    Treebank tagset</a>.
-                    </p>
-                </div>
-            </div>
-            <div class="scroll__stage">
-                <div class="graphic__step" data-step=1>
-                    <div class="interactive" data-sentence="matisse">
+                        <p>
+                        For this, I used a different grammar model: dependency
+                        grammar. In dependency grammars, instead constituents, each
+                        word is dependent on exactly one other word in the
+                        sentence.
+                        </p>
+
+                        <p>
+                        I use the root of each dependency tree as the “active noun”
+                        or “active verb” in the phrase, and their parts of speech
+                        include markers for plurality, properness, verb tense, etc.
+                        </p>
+                    </div>
+                    <div class="step" data-step=8>
+                        <p>
+                        There were just a couple of other edge cases I handled,
+                        which is why the phrase tags I end up using do not line up
+                        entirely with the <a href="http://www.url.com">Penn
+                            Treebank tagset</a>.
+                        </p>
                     </div>
                 </div>
-                <div class="graphic__step" data-step=2>
-                    <img src="https://imgs.xkcd.com/comics/here_to_help.png" alt="xkcd: Here to Help"/>
-                </div>
-                <div class="graphic__step" data-step=3>
-                    <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/5/54/Parse_tree_1.jpg"
-                    alt="Constituency Based Parse Tree"/>
-                </div>
-                <div class="graphic__step" data-step=4>
-                    <div class="interactive" data-sentence="np-vp">
+                <div class="scroll__stage">
+                    <div class="graphic__step" data-step=1>
+                        <div class="interactive" data-sentence="matisse">
+                        </div>
+                    </div>
+                    <div class="graphic__step" data-step=2>
+                        <img src="https://imgs.xkcd.com/comics/here_to_help.png" alt="xkcd: Here to Help"/>
+                    </div>
+                    <div class="graphic__step" data-step=3>
+                        <img
+                            src="https://upload.wikimedia.org/wikipedia/commons/5/54/Parse_tree_1.jpg"
+                            alt="Constituency Based Parse Tree"/>
+                    </div>
+                    <div class="graphic__step" data-step=4>
+                        <div class="interactive" data-sentence="np-vp">
+                        </div>
+                    </div>
+                    <div class="graphic__step" data-step=5>
+                        <div class="interactive" data-sentence="np">
+                        </div>
+                    </div>
+                    <div class="graphic__step" data-step=6>
+                        <div class="interactive" data-sentence="new-np-vp">
+                        </div>
+                    </div>
+                    <div class="graphic__step" data-step=7>
+                        <div class="interactive" data-sentence="mismatch">
+                        </div>
                     </div>
                 </div>
-                <div class="graphic__step" data-step=5>
-                    <div class="interactive" data-sentence="np">
-                    </div>
-                </div>
-                <div class="graphic__step" data-step=6>
-                    <div class="interactive" data-sentence="new-np-vp">
-                    </div>
-                </div>
-                <div class="graphic__step" data-step=7>
-                    <div class="interactive" data-sentence="mismatch">
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="playground introduction">
-            <h1>Try it out!</h1>
-            <span>Add a new </span>
-            <select name="constituents" class="constituents">
-                <option value="default">Choose Phrase Type</option>
-                <option value="NP">NP (Noun Phrase)</option>
-                <option value="NPS">NPS (Plural Noun Phrase)</option>
-                <option value="VP">VP (Verb Phrase)</option>
-                <option value="VPS">VPS (Plural Verb Phrase)</option>
-                <option value="PP">PP (Prepositional Phrase)</option>
-                <option value="ADJPE">ADJPE (Adj Phrase w/ Adjective at End)</option>
-                <option value="ADJPS">ADJPE (Adj Phrase w/ Adjective at Start)</option>
-            </select>
-            <div class="interactive" data-sentence="interactive"></div>
-        </section>
+            </section>
+            <section class="playground introduction">
+                <h1>Try it out!</h1>
+                <span>Add a new </span>
+                <select name="constituents" class="constituents">
+                    <option value="default">Choose Phrase Type</option>
+                    <option value="NP">NP (Noun Phrase)</option>
+                    <option value="NPS">NPS (Plural Noun Phrase)</option>
+                    <option value="VP">VP (Verb Phrase)</option>
+                    <option value="VPS">VPS (Plural Verb Phrase)</option>
+                    <option value="PP">PP (Prepositional Phrase)</option>
+                    <option value="ADJPE">ADJPE (Adj Phrase w/ Adjective at End)</option>
+                    <option value="ADJPS">ADJPS (Adj Phrase w/ Adjective at Start)</option>
+                </select>
+                <div class="interactive" data-sentence="interactive"></div>
+            </section>
+        </div>
         <script src="bundle.js"></script>
     </body>
+
 </html>
