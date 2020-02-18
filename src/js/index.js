@@ -134,9 +134,12 @@ async function init() {
   window.jankEventBus.register('change-book', e => {
     for (let i = 0; i < interactiveCover.books.length; ++i) {
       const book = interactiveCover.books[i];
-      if (book.id == e.old_id) book.id = e.new_id;
+      if (book.id == e.old_id) {
+        book.id = e.new_id;
+        interactiveCover.render();
+        return;
+      }
     }
-    interactiveCover.render();
   })
 
   window.jankEventBus.register('delete-book', e => {

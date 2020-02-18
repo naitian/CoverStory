@@ -21,8 +21,9 @@ class Book {
     this.render();
   }
 
-  remove() {
+  remove(e) {
     console.log('remove');
+    e.preventDefault();
     window.jankEventBus.emit('delete-book', {id: this.id});
   }
 
