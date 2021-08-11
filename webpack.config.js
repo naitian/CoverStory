@@ -26,9 +26,11 @@ module.exports = {
     ]
   },
   plugins: [
-    new CopyWebpackPlugin([
-      { from: './src/data', to: './data' }
-    ])
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: './src/data', to: './data' },
+      ]
+    })
   ],
   devServer: {
     contentBase: path.join(__dirname, 'dist')

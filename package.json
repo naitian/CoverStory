@@ -4,7 +4,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --mode development --output-path dist"
+    "start": "webpack serve --mode development --output-path dist"
   },
   "dependencies": {
     "@shopify/draggable": "^1.0.0-beta.8",
@@ -14,13 +14,14 @@
     "vue": "^2.6.10"
   },
   "devDependencies": {
-    "copy-webpack-plugin": "^5.0.4",
-    "css-loader": "^3.1.0",
-    "node-sass": "^4.12.0",
-    "sass-loader": "^7.1.0",
-    "style-loader": "^0.23.1",
-    "webpack": "^4.38.0",
-    "webpack-cli": "^3.3.6",
+    "copy-webpack-plugin": "^9.0.1",
+    "css-loader": "^6.2.0",
+    "sass": "^1.37.5",
+    "sass-loader": "^12.1.0",
+    "style-loader": "^3.2.1",
+    "webpack": "^5.50.0",
+    "webpack-cli": "^4.7.2",
+    "webpack-dev-middleware": "^5.0.0",
     "webpack-dev-server": "^3.7.2"
   }
 }
